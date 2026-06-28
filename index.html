@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LiliDelivery — Доставка из любого заведения</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#FF6B1A;--orange-light:#FF8C42;--orange-pale:#FFF0E8;
+  --navy:#1A1A2E;--navy-mid:#2D2D4A;
+  --off-white:#F8F9FA;--lavender:#F0F4FF;--white:#FFFFFF;
+  --text-main:#1A1A2E;--text-mid:#4A4A6A;--text-soft:#8888AA;
+  --r-sm:12px;--r-md:20px;--r-lg:32px;
+  --sh-soft:0 4px 24px rgba(26,26,46,.08);
+  --sh-card:0 8px 40px rgba(26,26,46,.12);
+  --sh-orange:0 8px 32px rgba(255,107,26,.28);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none}
+html::-webkit-scrollbar{display:none}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--off-white);color:var(--text-main);overflow-x:hidden;line-height:1.6}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,107,26,.07);transition:box-shadow .3s}
+.nav-logo{font-size:21px;font-weight:800;color:var(--navy);letter-spacing:-.5px}
+.nav-logo span{color:var(--orange)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:14px;font-weight:500;color:var(--text-mid);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--orange)}
+.nav-cta{background:var(--orange);color:#fff;border:none;border-radius:var(--r-sm);padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;text-decoration:none;white-space:nowrap}
+.nav-cta:hover{background:var(--orange-light);transform:translateY(-1px);box-shadow:var(--sh-orange)}
+
+/* ── HERO ── */
+.hero{min-height:100svh;padding:90px 60px 60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1280px;margin:0 auto}
+.hero-left{max-width:560px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--orange-pale);color:var(--orange);font-size:12px;font-weight:700;padding:6px 14px 6px 10px;border-radius:99px;margin-bottom:28px}
+.hero-title{font-size:clamp(34px,4.5vw,66px);font-weight:900;line-height:1.06;letter-spacing:-2px;color:var(--navy);margin-bottom:20px}
+.hero-title .accent{color:var(--orange)}
+.hero-sub{font-size:clamp(15px,1.5vw,18px);color:var(--text-mid);line-height:1.75;margin-bottom:36px;max-width:440px}
+.hero-cta-group{display:flex;gap:12px;margin-bottom:44px;flex-wrap:wrap}
+.store-btn{display:inline-flex;align-items:center;gap:10px;background:var(--navy);color:#fff;text-decoration:none;border-radius:14px;padding:11px 20px;transition:transform .2s,box-shadow .2s,background .2s;cursor:pointer;border:none;font-family:'Inter',sans-serif;width:fit-content}
+.store-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(26,26,46,.28);background:var(--navy-mid)}
+.store-btn.orange{background:var(--orange)}
+.store-btn.orange:hover{background:var(--orange-light);box-shadow:var(--sh-orange)}
+.store-btn.store-btn-ghost{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15)}
+.store-btn.store-btn-ghost:hover{background:rgba(255,255,255,.14);box-shadow:none}
+.store-btn-icon{width:26px;height:26px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.store-btn-text-wrap{display:flex;flex-direction:column}
+.store-btn-label{font-size:9px;font-weight:500;opacity:.7;letter-spacing:.8px;text-transform:uppercase}
+.store-btn-name{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.hero-stat{display:flex;flex-direction:column}
+.hero-stat-num{font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.5px}
+.hero-stat-num span{color:var(--orange)}
+.hero-stat-label{font-size:11px;color:var(--text-soft);font-weight:500}
+
+/* ── PHONE SCENE ── */
+.hero-right{display:flex;justify-content:center;align-items:center;position:relative}
+.phone-scene{position:relative;width:340px;height:580px;flex-shrink:0}
+.orbit-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,107,26,.3);top:50%;left:50%;animation:pulse-ring 3.2s ease-out infinite;pointer-events:none}
+.orbit-ring:nth-child(1){width:260px;height:260px;margin-left:-130px;margin-top:-130px;animation-delay:0s}
+.orbit-ring:nth-child(2){width:380px;height:380px;margin-left:-190px;margin-top:-190px;animation-delay:1.07s}
+.orbit-ring:nth-child(3){width:500px;height:500px;margin-left:-250px;margin-top:-250px;animation-delay:2.14s}
+@keyframes pulse-ring{0%{opacity:.5;transform:scale(.65)}100%{opacity:0;transform:scale(1)}}
+.iphone-wrap{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);animation:float 4.5s ease-in-out infinite;z-index:2;filter:drop-shadow(0 24px 48px rgba(13,13,31,.55))}
+@keyframes float{0%,100%{transform:translate(-50%,-50%) translateY(0) rotate(-1deg)}50%{transform:translate(-50%,-50%) translateY(-14px) rotate(1deg)}}
+.float-chip{position:absolute;background:#fff;border-radius:14px;padding:10px 16px;box-shadow:0 8px 32px rgba(26,26,46,.14);display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--navy);z-index:5;animation:fchip 5s ease-in-out infinite;white-space:nowrap;pointer-events:none}
+.fc1{top:14%;right:-50px;animation-delay:.3s}
+.fc2{bottom:24%;left:-45px;animation-delay:2.2s}
+@keyframes fchip{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.fc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.fc-dot.green{background:#22C55E}
+.fc-dot.orange{background:var(--orange)}
+
+/* ── SECTIONS ── */
+.section{padding:96px 60px}
+.section-inner{max-width:1200px;margin:0 auto}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:22px;height:2px;background:var(--orange);border-radius:1px;flex-shrink:0}
+.sec-title{font-size:clamp(26px,3.5vw,50px);font-weight:800;letter-spacing:-1.5px;color:var(--navy);line-height:1.08;margin-bottom:16px}
+.sec-sub{font-size:17px;color:var(--text-mid);max-width:500px;line-height:1.72}
+
+/* ── BLOCK 2 ── */
+.problem-section{background:var(--navy)}
+.problem-section .eyebrow{color:var(--orange-light)}
+.problem-section .eyebrow::before{background:var(--orange-light)}
+.problem-section .sec-title{color:#fff}
+.problem-section .sec-sub{color:rgba(255,255,255,.5)}
+.ps-grid{display:grid;grid-template-columns:1fr 48px 1fr;gap:16px;margin-top:52px;align-items:center}
+.ps-card{border-radius:var(--r-md);padding:32px 28px}
+.ps-card.prob{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.ps-card.sol{background:rgba(255,107,26,.09);border:1px solid rgba(255,107,26,.2)}
+.ps-arrow-col{display:flex;justify-content:center}
+.ps-icon-wrap{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.ps-card.prob .ps-icon-wrap{background:rgba(255,255,255,.06)}
+.ps-card.sol .ps-icon-wrap{background:rgba(255,107,26,.18)}
+.ps-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.ps-card.prob .ps-lbl{color:rgba(255,255,255,.28)}
+.ps-card.sol .ps-lbl{color:var(--orange-light)}
+.ps-ttl{font-size:19px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.ps-card.prob .ps-ttl{color:rgba(255,255,255,.6)}
+.ps-card.sol .ps-ttl{color:#fff}
+.ps-dsc{font-size:14px;line-height:1.7}
+.ps-card.prob .ps-dsc{color:rgba(255,255,255,.3)}
+.ps-card.sol .ps-dsc{color:rgba(255,255,255,.58)}
+.ps-result{margin-top:24px;background:rgba(255,107,26,.07);border:1px solid rgba(255,107,26,.16);border-radius:var(--r-md);padding:26px 30px;display:flex;align-items:center;gap:18px}
+.ps-result-icon{width:46px;height:46px;border-radius:13px;background:rgba(255,107,26,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ps-result-text{font-size:17px;font-weight:700;color:#fff;line-height:1.4}
+.ps-result-text span{color:var(--orange-light)}
+
+/* ── BLOCK 3 FEATURES ── */
+.features-section{background:var(--lavender)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+.feature-card{background:var(--white);border-radius:var(--r-md);padding:30px 26px;box-shadow:var(--sh-soft);transition:transform .25s,box-shadow .25s;border:1px solid rgba(0,0,0,.04)}
+.feature-card:hover{transform:translateY(-6px);box-shadow:var(--sh-card)}
+.fi-wrap{width:52px;height:52px;background:var(--orange-pale);border-radius:15px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:background .25s}
+.feature-card:hover .fi-wrap{background:var(--orange)}
+.feature-card:hover .fi-wrap svg *{stroke:#fff}
+.feat-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px;letter-spacing:-.2px}
+.feat-desc{font-size:13.5px;color:var(--text-mid);line-height:1.65}
+
+/* ── BLOCK 4 ── */
+.trust-section{background:var(--white)}
+.screenshots-row{display:flex;gap:20px;justify-content:center;margin:52px 0 56px;flex-wrap:wrap;align-items:flex-end}
+.ss-item{display:flex;flex-direction:column;align-items:center;gap:12px}
+.ss-item:nth-child(even){margin-bottom:28px}
+.ss-caption{font-size:12px;font-weight:600;color:var(--text-soft);letter-spacing:.3px}
+.trust-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;background:var(--off-white);border-radius:var(--r-lg);padding:40px}
+.trust-item{text-align:center}
+.trust-num{font-size:36px;font-weight:900;color:var(--navy);letter-spacing:-1.5px;margin-bottom:6px;line-height:1}
+.trust-num span{color:var(--orange)}
+.trust-label{font-size:13px;color:var(--text-soft);font-weight:500;line-height:1.4}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+.review-card{background:var(--off-white);border-radius:var(--r-md);padding:24px;border:1px solid rgba(0,0,0,.04)}
+.review-stars{display:flex;gap:3px;margin-bottom:12px}
+.review-text{font-size:14px;line-height:1.67;color:var(--text-mid);margin-bottom:16px}
+.review-author{display:flex;align-items:center;gap:10px}
+.review-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.review-name{font-size:13px;font-weight:600;color:var(--navy)}
+.review-meta{font-size:11px;color:var(--text-soft)}
+
+/* ── BLOCK 5 ── */
+.cta-section{background:var(--navy);text-align:center;position:relative;overflow:hidden}
+.cta-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,26,.16) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cta-inner{position:relative;z-index:1}
+.cta-section .eyebrow{justify-content:center;color:var(--orange-light)}
+.cta-section .eyebrow::before{background:var(--orange-light)}
+.cta-section .sec-title{color:#fff;margin:0 auto 16px;max-width:580px}
+.cta-section .sec-sub{color:rgba(255,255,255,.5);margin:0 auto 44px}
+.cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.cta-note{font-size:13px;color:rgba(255,255,255,.3)}
+.cta-note strong{color:rgba(255,255,255,.55);font-weight:600}
+
+/* footer */
+footer{background:#111127;padding:32px 40px;text-align:center;color:rgba(255,255,255,.28);font-size:13px}
+.footer-logo{font-size:19px;font-weight:800;color:rgba(255,255,255,.5);margin-bottom:10px}
+.footer-logo span{color:var(--orange)}
+footer a{color:var(--orange-light);text-decoration:none}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,13,31,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.active{opacity:1;pointer-events:all}
+.modal-box{background:#fff;border-radius:28px;padding:48px 40px;max-width:420px;width:100%;text-align:center;transform:scale(.92) translateY(16px);transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:0 32px 80px rgba(13,13,31,.35)}
+.modal-overlay.active .modal-box{transform:scale(1) translateY(0)}
+.modal-icon{width:72px;height:72px;background:var(--orange-pale);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.modal-title{font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin-bottom:12px;line-height:1.2}
+.modal-text{font-size:15px;color:var(--text-mid);line-height:1.7;margin-bottom:8px}
+.modal-brand{font-size:13px;font-weight:700;color:var(--orange);letter-spacing:.5px;margin-bottom:32px}
+.modal-close{background:var(--navy);color:#fff;border:none;border-radius:14px;padding:14px 32px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s,transform .15s;font-family:'Inter',sans-serif;width:100%}
+.modal-close:hover{background:var(--navy-mid);transform:translateY(-1px)}
+
+/* ── ANIMATIONS ── */
+.fade-in{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:none}
+.fade-in-delay-1{transition-delay:.1s}.fade-in-delay-2{transition-delay:.2s}
+.fade-in-delay-3{transition-delay:.3s}.fade-in-delay-4{transition-delay:.4s}
+.fade-in-delay-5{transition-delay:.5s}
+
+/* ═══ RESPONSIVE ═══ */
+
+/* Large tablet */
+@media(max-width:1100px){
+  nav{padding:14px 28px}
+  .hero{padding:90px 32px 60px;gap:40px}
+  .section{padding:80px 32px}
+  .ps-grid{grid-template-columns:1fr 40px 1fr}
+}
+
+/* Tablet */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;text-align:center;min-height:auto;padding:80px 24px 56px;gap:0}
+  .hero-left{max-width:100%}
+  .hero-sub{margin:0 auto 32px}
+  .hero-cta-group{justify-content:center}
+  .hero-stats{justify-content:center;gap:24px}
+  .hero-right{order:-1;height:420px;margin-bottom:32px}
+  .phone-scene{width:260px;height:440px;transform:scale(.9)}
+  .float-chip{display:none}
+  .orbit-ring:nth-child(3){display:none}
+  .features-grid{grid-template-columns:1fr 1fr}
+  .trust-bar{grid-template-columns:1fr 1fr;gap:24px 16px;padding:28px 20px}
+  .reviews-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .section{padding:72px 24px}
+  .ps-grid{grid-template-columns:1fr;gap:12px}
+  .ps-arrow-col{display:none}
+  .ps-result{flex-direction:row}
+  .ps-result-text{font-size:15px}
+}
+
+/* Mobile */
+@media(max-width:640px){
+  nav{padding:12px 20px}
+  .nav-logo{font-size:18px}
+  .nav-cta{padding:8px 16px;font-size:13px}
+  .hero{padding:72px 20px 48px}
+  .hero-right{height:360px;margin-bottom:24px}
+  .phone-scene{width:220px;height:380px;transform:scale(.85)}
+  .hero-title{letter-spacing:-1.5px}
+  .hero-cta-group{flex-direction:column;align-items:flex-start}
+  .hero-stats{gap:20px}
+  .section{padding:60px 20px}
+  .sec-title{letter-spacing:-1px}
+  /* feature cards — compact */
+  .features-grid{grid-template-columns:1fr;gap:10px}
+  .feature-card{padding:18px 16px;border-radius:14px}
+  .fi-wrap{width:38px;height:38px;border-radius:11px;margin-bottom:12px}
+  .fi-wrap svg{width:18px;height:18px}
+  .feat-title{font-size:13.5px;margin-bottom:5px}
+  .feat-desc{font-size:12px;line-height:1.55}
+  /* problem cards */
+  .ps-card{padding:20px 18px}
+  .ps-icon-wrap{width:38px;height:38px;border-radius:11px;margin-bottom:12px}
+  .ps-ttl{font-size:15px;margin-bottom:7px}
+  .ps-dsc{font-size:12px}
+  .ps-result{padding:18px 20px;gap:12px}
+  .ps-result-icon{width:36px;height:36px;border-radius:10px}
+  .ps-result-text{font-size:14px}
+  /* reviews */
+  .review-card{padding:16px}
+  .review-text{font-size:12.5px;margin-bottom:12px}
+  /* trust */
+  .trust-bar{grid-template-columns:1fr 1fr;padding:20px;gap:20px 12px;border-radius:20px}
+  .trust-num{font-size:28px}
+  .trust-label{font-size:11px}
+  /* screenshots */
+  .screenshots-row{gap:12px}
+  .ss-item:nth-child(even){margin-bottom:16px}
+  /* cta buttons — stack but don't stretch */
+  .cta-buttons{flex-direction:column;align-items:center}
+  footer{padding:24px 20px}
+}
+
+/* Small mobile */
+@media(max-width:400px){
+  .hero-right{height:320px}
+  .phone-scene{transform:scale(.78)}
+  .trust-bar{grid-template-columns:1fr 1fr}
+  .modal-box{padding:32px 24px;border-radius:20px}
+  .feature-card{padding:14px 12px}
+  .feat-title{font-size:13px}
+  .feat-desc{font-size:11.5px}
+}
+</style>
+</head>
+<body>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-label="Информация о проекте">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 3L19.5 11.5L29 12.5L22.5 18.5L24.5 28L16 23.5L7.5 28L9.5 18.5L3 12.5L12.5 11.5L16 3Z" fill="var(--orange)" opacity=".9"/>
+      </svg>
+    </div>
+    <div class="modal-title">Это учебный проект</div>
+    <p class="modal-text">Приложение LiliDelivery создано в рамках портфолио и пока недоступно в магазинах приложений.</p>
+    <div class="modal-brand">— LILIDUDE Portfolio Project —</div>
+    <button class="modal-close" id="modal-close">Понятно</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">Lili<span>Delivery</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Возможности</a></li>
+    <li><a href="#trust">Отзывы</a></li>
+    <li><a href="#download">Скачать</a></li>
+  </ul>
+  <a href="#download" class="nav-cta">Скачать бесплатно</a>
+</nav>
+
+<!-- ═══ BLOCK 1: HERO ═══ -->
+<section style="background:var(--off-white);padding-top:0">
+  <div class="hero">
+    <div class="hero-left fade-in">
+      <div class="hero-badge">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L8.8 5.2L13.5 5.7L10.1 8.8L11.1 13.5L7 11L2.9 13.5L3.9 8.8L0.5 5.7L5.2 5.2L7 1Z" fill="var(--orange)"/></svg>
+        Новое в 2025 году
+      </div>
+      <h1 class="hero-title">Всё что хочешь —<br>уже <span class="accent">едет к тебе</span></h1>
+      <p class="hero-sub">Заказывай из любых ресторанов, магазинов и кафе города. Без очередей, пробок и лишних усилий.</p>
+      <div class="hero-cta-group">
+        <button class="store-btn orange open-modal">
+          <span class="store-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M15.5 11.5C15.49 9.3 17.34 8.24 17.42 8.19C16.36 6.63 14.7 6.42 14.12 6.4C12.72 6.26 11.37 7.23 10.66 7.23C9.93 7.23 8.83 6.41 7.65 6.44C6.12 6.47 4.7 7.34 3.92 8.7C2.31 11.47 3.51 15.55 5.06 17.79C5.84 18.89 6.75 20.12 7.96 20.08C9.14 20.03 9.58 19.31 11 19.31C12.4 19.31 12.81 20.08 14.04 20.05C15.31 20.03 16.1 18.94 16.86 17.83C17.77 16.57 18.14 15.33 18.16 15.27C18.13 15.26 15.51 14.24 15.5 11.5Z" fill="white"/><path d="M13.17 4.79C13.8 4.02 14.23 2.97 14.11 1.91C13.21 1.95 12.09 2.52 11.44 3.27C10.86 3.94 10.35 5.02 10.49 6.04C11.5 6.12 12.52 5.57 13.17 4.79Z" fill="white"/></svg></span>
+          <span class="store-btn-text-wrap"><span class="store-btn-label">Download on the</span><span class="store-btn-name">App Store</span></span>
+        </button>
+        <button class="store-btn open-modal">
+          <span class="store-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3.18 1.5C2.8 1.72 2.55 2.14 2.55 2.65V19.35C2.55 19.86 2.8 20.28 3.18 20.5L3.26 20.58L12.86 11L3.26 1.42L3.18 1.5Z" fill="#4FC3F7"/><path d="M16.04 14.17L12.86 11L16.04 7.83L19.68 9.9C20.72 10.5 20.72 11.5 19.68 12.1L16.04 14.17Z" fill="#FFCA28"/><path d="M16.04 14.17L12.86 11L3.18 20.5C3.54 20.87 4.12 20.92 4.78 20.55L16.04 14.17Z" fill="#F44336"/><path d="M16.04 7.83L4.78 1.45C4.12 1.08 3.54 1.13 3.18 1.5L12.86 11L16.04 7.83Z" fill="#4CAF50"/></svg></span>
+          <span class="store-btn-text-wrap"><span class="store-btn-label">Get it on</span><span class="store-btn-name">Google Play</span></span>
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">50<span>K+</span></span><span class="hero-stat-label">Пользователей</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">4.<span>9</span></span><span class="hero-stat-label">Рейтинг Store</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">28<span>мин</span></span><span class="hero-stat-label">Среднее время</span></div>
+      </div>
+    </div>
+
+    <!-- iPhone 15 Hero — FIXED no side-rail lines -->
+    <div class="hero-right fade-in fade-in-delay-2">
+      <div class="phone-scene">
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring"></div>
+        <div class="orbit-ring"></div>
+        <div class="float-chip fc1"><div class="fc-dot green"></div><span>Курьер в пути — 8 мин</span></div>
+        <div class="float-chip fc2"><div class="fc-dot orange"></div><span>Заказ принят</span></div>
+
+        <div class="iphone-wrap">
+          <svg width="230" height="480" viewBox="0 0 230 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Body clip — entire phone shape, content stays inside -->
+              <clipPath id="bodyClip">
+                <rect x="0" y="0" width="230" height="480" rx="44"/>
+              </clipPath>
+              <!-- Screen gradient fills entire clipped area -->
+              <linearGradient id="sg" x1="0" y1="0" x2="0" y2="480" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1A1A2E"/>
+                <stop offset="100%" stop-color="#0d0d1f"/>
+              </linearGradient>
+              <!-- Frame edge ring gradient -->
+              <linearGradient id="fg" x1="0" y1="240" x2="230" y2="240" gradientUnits="userSpaceOnUse">
+                <stop offset="0%"   stop-color="#2e2e48"/>
+                <stop offset="12%"  stop-color="#52526e"/>
+                <stop offset="50%"  stop-color="#62627e"/>
+                <stop offset="88%"  stop-color="#52526e"/>
+                <stop offset="100%" stop-color="#2e2e48"/>
+              </linearGradient>
+              <filter id="pshadow" x="-25%" y="-8%" width="150%" height="116%">
+                <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#0a0a1a" flood-opacity=".6"/>
+              </filter>
+            </defs>
+
+            <!-- Drop shadow layer -->
+            <g filter="url(#pshadow)">
+              <rect x="0" y="0" width="230" height="480" rx="44" fill="#1A1A2E"/>
+            </g>
+
+            <!-- Everything clipped to the phone shape — no grey corners possible -->
+            <g clip-path="url(#bodyClip)">
+              <!-- Screen background fills 100% of clipped area -->
+              <rect x="0" y="0" width="230" height="480" fill="url(#sg)"/>
+
+              <!-- Thin frame ring inside edges (8px) — simulates bezel -->
+              <rect x="0" y="0" width="230" height="480" fill="none" stroke="url(#fg)" stroke-width="9"/>
+
+            <!-- DYNAMIC ISLAND -->
+            <rect x="82" y="18" width="66" height="22" rx="11" fill="#000"/>
+            <circle cx="133" cy="29" r="5" fill="#0d1018"/>
+            <circle cx="133" cy="29" r="2.5" fill="#1a2030"/>
+            <circle cx="131.5" cy="27.5" r=".9" fill="rgba(255,255,255,.15)"/>
+
+            <!-- APP CONTENT — no extra clipPath needed, already clipped by bodyClip -->
+              <!-- Status bar -->
+              <text x="20" y="48" fill="rgba(255,255,255,.75)" font-size="10" font-weight="600" font-family="Inter,sans-serif">9:41</text>
+              <!-- Battery -->
+              <rect x="188" y="42" width="20" height="10" rx="2.5" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.1"/>
+              <rect x="208.5" y="45.3" width="2.3" height="3.4" rx="1" fill="rgba(255,255,255,.35)"/>
+              <rect x="189.5" y="43.5" width="13" height="7" rx="1.5" fill="#22C55E"/>
+              <!-- Wifi -->
+              <path d="M174 47.5a7 7 0 0114 0" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M177 50.5a4 4 0 018 0" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.3" stroke-linecap="round"/>
+              <circle cx="181" cy="54" r="1.3" fill="rgba(255,255,255,.75)"/>
+
+              <!-- App header -->
+              <text x="20" y="76" fill="white" font-size="13" font-weight="800" font-family="Inter,sans-serif" letter-spacing="-.3">LiliDelivery</text>
+              <circle cx="201" cy="71" r="13" fill="rgba(255,107,26,.18)" stroke="rgba(255,107,26,.35)" stroke-width="1"/>
+              <path d="M201 65a4 4 0 110 8 4 4 0 010-8zm0 9c-3.3 0-5.5 1.6-5.5 3.5h11c0-1.9-2.2-3.5-5.5-3.5z" fill="#FF6B1A" opacity=".9"/>
+
+              <!-- Search -->
+              <rect x="20" y="86" width="190" height="28" rx="9" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.09)" stroke-width="1"/>
+              <circle cx="33" cy="100" r="5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.3"/>
+              <line x1="37" y1="104" x2="39.5" y2="106.5" stroke="rgba(255,255,255,.3)" stroke-width="1.3" stroke-linecap="round"/>
+              <text x="46" y="104" fill="rgba(255,255,255,.28)" font-size="9.5" font-family="Inter,sans-serif">Поиск заведений...</text>
+
+              <!-- Pills -->
+              <rect x="20" y="122" width="44" height="18" rx="9" fill="rgba(255,107,26,.22)" stroke="rgba(255,107,26,.35)" stroke-width="1"/>
+              <text x="26" y="135" fill="#FF8C42" font-size="8.5" font-weight="600" font-family="Inter,sans-serif">Пицца</text>
+              <rect x="70" y="122" width="36" height="18" rx="9" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="78" y="135" fill="rgba(255,255,255,.4)" font-size="8.5" font-family="Inter,sans-serif">Суши</text>
+              <rect x="112" y="122" width="44" height="18" rx="9" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="118" y="135" fill="rgba(255,255,255,.4)" font-size="8.5" font-family="Inter,sans-serif">Бургеры</text>
+              <rect x="162" y="122" width="38" height="18" rx="9" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <text x="168" y="135" fill="rgba(255,255,255,.4)" font-size="8.5" font-family="Inter,sans-serif">Кофе</text>
+
+              <!-- Card 1 -->
+              <rect x="20" y="148" width="190" height="58" rx="12" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <rect x="30" y="157" width="40" height="40" rx="10" fill="#1e3252"/>
+              <circle cx="50" cy="177" r="13" fill="rgba(255,107,26,.15)" stroke="rgba(255,107,26,.25)" stroke-width="1"/>
+              <path d="M50 171l1.4 3h3.2l-2.4 1.8.9 3.2-3.1-1.8-3.1 1.8.9-3.2-2.4-1.8h3.2z" fill="#FF6B1A" opacity=".85"/>
+              <text x="78" y="168" fill="white" font-size="10.5" font-weight="700" font-family="Inter,sans-serif">Napoli Pizza</text>
+              <text x="78" y="181" fill="rgba(255,255,255,.38)" font-size="8.5" font-family="Inter,sans-serif">от 299 ₽</text>
+              <path d="M78 192l.9 2 2.1.3-1.5 1.4.4 2.1-1.9-1-1.9 1 .4-2.1-1.5-1.4 2.1-.3z" fill="#FFB400"/>
+              <text x="88" y="196" fill="rgba(255,255,255,.4)" font-size="8.5" font-family="Inter,sans-serif">4.9</text>
+              <rect x="170" y="162" width="34" height="15" rx="7.5" fill="rgba(255,107,26,.2)"/>
+              <text x="175" y="173" fill="#FF6B1A" font-size="8.5" font-weight="600" font-family="Inter,sans-serif">25 мин</text>
+
+              <!-- Card 2 -->
+              <rect x="20" y="212" width="190" height="58" rx="12" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <rect x="30" y="221" width="40" height="40" rx="10" fill="#1a2e3a"/>
+              <circle cx="50" cy="241" r="13" fill="rgba(34,197,94,.12)" stroke="rgba(34,197,94,.25)" stroke-width="1"/>
+              <ellipse cx="50" cy="241" rx="8" ry="5.5" fill="rgba(34,197,94,.25)"/>
+              <rect x="44" y="238" width="12" height="6" rx="3" fill="rgba(255,255,255,.2)"/>
+              <rect x="47" y="236.5" width="6" height="2.5" rx="1.2" fill="rgba(255,107,26,.6)"/>
+              <text x="78" y="232" fill="white" font-size="10.5" font-weight="700" font-family="Inter,sans-serif">Tokyo Sushi Bar</text>
+              <text x="78" y="245" fill="rgba(255,255,255,.38)" font-size="8.5" font-family="Inter,sans-serif">от 450 ₽</text>
+              <path d="M78 256l.9 2 2.1.3-1.5 1.4.4 2.1-1.9-1-1.9 1 .4-2.1-1.5-1.4 2.1-.3z" fill="#FFB400"/>
+              <text x="88" y="260" fill="rgba(255,255,255,.4)" font-size="8.5" font-family="Inter,sans-serif">4.8</text>
+              <rect x="170" y="226" width="34" height="15" rx="7.5" fill="rgba(255,107,26,.2)"/>
+              <text x="175" y="237" fill="#FF6B1A" font-size="8.5" font-weight="600" font-family="Inter,sans-serif">30 мин</text>
+
+              <!-- Card 3 -->
+              <rect x="20" y="276" width="190" height="58" rx="12" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+              <rect x="30" y="285" width="40" height="40" rx="10" fill="#2e1a1a"/>
+              <circle cx="50" cy="305" r="13" fill="rgba(239,68,68,.12)" stroke="rgba(239,68,68,.25)" stroke-width="1"/>
+              <rect x="43" y="299" width="14" height="3.5" rx="1.75" fill="rgba(239,68,68,.7)"/>
+              <rect x="43" y="304" width="14" height="3" rx="1.5" fill="rgba(255,193,7,.75)"/>
+              <rect x="43" y="308" width="14" height="3.5" rx="1.75" fill="rgba(160,82,45,.7)"/>
+              <text x="78" y="296" fill="white" font-size="10.5" font-weight="700" font-family="Inter,sans-serif">Burger House</text>
+              <text x="78" y="309" fill="rgba(255,255,255,.38)" font-size="8.5" font-family="Inter,sans-serif">от 250 ₽</text>
+              <path d="M78 320l.9 2 2.1.3-1.5 1.4.4 2.1-1.9-1-1.9 1 .4-2.1-1.5-1.4 2.1-.3z" fill="#FFB400"/>
+              <text x="88" y="324" fill="rgba(255,255,255,.4)" font-size="8.5" font-family="Inter,sans-serif">4.7</text>
+              <rect x="170" y="290" width="34" height="15" rx="7.5" fill="rgba(255,107,26,.2)"/>
+              <text x="175" y="301" fill="#FF6B1A" font-size="8.5" font-weight="600" font-family="Inter,sans-serif">20 мин</text>
+
+              <!-- Big CTA -->
+              <rect x="20" y="344" width="190" height="36" rx="12" fill="#FF6B1A"/>
+              <text x="115" y="367" fill="white" font-size="11.5" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">Выбрать заведение →</text>
+
+              <!-- Bottom nav -->
+              <rect x="9" y="392" width="212" height="52" fill="rgba(12,12,28,.97)"/>
+              <!-- home icon -->
+              <path d="M44 416l9-8 9 8v11h-5.5v-6h-7v6H44z" fill="rgba(255,107,26,.9)"/>
+              <!-- search icon -->
+              <circle cx="82" cy="421" r="6" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="1.5"/>
+              <line x1="86.5" y1="425.5" x2="89" y2="428" stroke="rgba(255,255,255,.32)" stroke-width="1.5" stroke-linecap="round"/>
+              <!-- list/orders -->
+              <rect x="107" y="413" width="14" height="17" rx="3" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="1.4"/>
+              <line x1="110" y1="419" x2="118" y2="419" stroke="rgba(255,255,255,.32)" stroke-width="1"/>
+              <line x1="110" y1="422" x2="116" y2="422" stroke="rgba(255,255,255,.32)" stroke-width="1"/>
+              <!-- profile -->
+              <circle cx="148" cy="418" r="4.5" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="1.4"/>
+              <path d="M141 430c0-3.9 3.1-7 7-7s7 3.1 7 7" fill="none" stroke="rgba(255,255,255,.32)" stroke-width="1.4"/>
+
+              <!-- Home indicator -->
+              <rect x="88" y="452" width="54" height="4" rx="2" fill="rgba(255,255,255,.16)"/>
+            </g>
+            <!-- /bodyClip -->
+
+            <!-- Outer edge shine — outside clip, on top -->
+            <rect x="0" y="0" width="230" height="480" rx="44" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.2"/>
+            <rect x=".6" y=".6" width="228.8" height="478.8" rx="43.4" fill="none" stroke="rgba(0,0,0,.22)" stroke-width=".7"/>
+
+            <!-- Side buttons outside clip -->
+            <rect x="-3" y="74" width="5" height="20" rx="2.5" fill="#3a3a54"/>
+            <rect x="-3" y="108" width="5" height="30" rx="2.5" fill="#3a3a54"/>
+            <rect x="-3" y="150" width="5" height="30" rx="2.5" fill="#3a3a54"/>
+            <rect x="228" y="122" width="5" height="56" rx="2.5" fill="#3a3a54"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BLOCK 2: PROBLEM → SOLUTION ═══ -->
+<section class="section problem-section">
+  <div class="section-inner">
+    <div class="eyebrow fade-in">Зачем LiliDelivery</div>
+    <h2 class="sec-title fade-in">Почему старые способы<br>уже не работают</h2>
+    <div class="ps-grid">
+      <div class="ps-card prob fade-in fade-in-delay-1">
+        <div class="ps-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="13" r="11"/><line x1="13" y1="7" x2="13" y2="13"/><line x1="13" y1="13" x2="17" y2="17"/></svg>
+        </div>
+        <div class="ps-lbl">Проблема</div>
+        <div class="ps-ttl">Трата времени и нервов</div>
+        <div class="ps-dsc">Очереди в магазине, пробки, поиск парковки, тяжёлые пакеты. Поход за едой отнимает 2–3 часа, которые можно потратить на себя.</div>
+      </div>
+      <div class="ps-arrow-col fade-in fade-in-delay-2">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="rgba(255,107,26,.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="15" x2="26" y2="15"/><polyline points="18,7 26,15 18,23"/></svg>
+      </div>
+      <div class="ps-card sol fade-in fade-in-delay-3">
+        <div class="ps-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#FF8C42" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13,2 15.5,9.5 23.5,9.5 17.5,14.5 19.5,22 13,17.5 6.5,22 8.5,14.5 2.5,9.5 10.5,9.5"/></svg>
+        </div>
+        <div class="ps-lbl">Решение</div>
+        <div class="ps-ttl">Всё в три касания</div>
+        <div class="ps-dsc">Открываешь LiliDelivery, выбираешь заведение, оформляешь заказ. Курьер уже едет — а ты занимаешься тем, что важно.</div>
+      </div>
+    </div>
+    <div class="ps-result fade-in">
+      <div class="ps-result-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF8C42" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,12 9,18 20,6"/></svg>
+      </div>
+      <div class="ps-result-text">Результат: <span>от заявки до двери — менее 30 минут.</span> Без лишних действий, без ожидания, без стресса.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BLOCK 3: FEATURES ═══ -->
+<section class="section features-section" id="features">
+  <div class="section-inner">
+    <div class="eyebrow fade-in">Возможности</div>
+    <h2 class="sec-title fade-in">Всё что нужно —<br>уже внутри</h2>
+    <p class="sec-sub fade-in">LiliDelivery — это не просто доставка. Это экосистема для тех, кто ценит своё время.</p>
+    <div class="features-grid">
+      <div class="feature-card fade-in fade-in-delay-1">
+        <div class="fi-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
+        <div class="feat-title">Любые заведения города</div>
+        <div class="feat-desc">Рестораны, кафе, магазины, пекарни — всё в одном приложении. Более 500 партнёров и постоянно растём.</div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-2">
+        <div class="fi-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="4"/><path d="M12 2a8 8 0 018 8c0 6.5-8 14-8 14S4 16.5 4 10a8 8 0 018-8z"/></svg></div>
+        <div class="feat-title">Трекинг в реальном времени</div>
+        <div class="feat-desc">Следи за курьером на карте до самой двери. Никакого «где мой заказ?» — ты всё видишь сам.</div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-3">
+        <div class="fi-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="3"/><line x1="1" y1="10" x2="23" y2="10"/><line x1="6" y1="15" x2="9" y2="15"/><line x1="12" y1="15" x2="18" y2="15"/></svg></div>
+        <div class="feat-title">Быстрая оплата</div>
+        <div class="feat-desc">Apple Pay, Google Pay, карта или наличные. Оплата в одно касание без ввода данных каждый раз.</div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-4">
+        <div class="fi-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15.1,8.3 22,9.3 17,14.1 18.2,21 12,17.8 5.8,21 7,14.1 2,9.3 8.9,8.3"/></svg></div>
+        <div class="feat-title">Персональные рекомендации</div>
+        <div class="feat-desc">Приложение запоминает предпочтения и предлагает то, что тебе точно понравится.</div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-5">
+        <div class="fi-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 2l-4 5-4-5"/></svg></div>
+        <div class="feat-title">Бонусы и кешбэк</div>
+        <div class="feat-desc">Каждый заказ приносит баллы. Накапливай и трать на скидки — до 20% от стоимости.</div>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-5">
+        <div class="fi-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v7c0 5.25 4 10 9 11 5-1 9-5.75 9-11V7z"/><polyline points="9,12 11,14 15,10"/></svg></div>
+        <div class="feat-title">Безопасность и поддержка</div>
+        <div class="feat-desc">Данные надёжно защищены. Поддержка на связи 24/7 — поможем с любым вопросом.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BLOCK 4: SCREENSHOTS + TRUST ═══ -->
+<section class="section trust-section" id="trust">
+  <div class="section-inner">
+    <div class="eyebrow fade-in">Приложение изнутри</div>
+    <h2 class="sec-title fade-in">Просто. Быстро.<br>Красиво.</h2>
+    <p class="sec-sub fade-in">Интерфейс, который хочется использовать каждый день.</p>
+
+    <div class="screenshots-row">
+      <!-- Phone 1 — Home -->
+      <div class="ss-item fade-in fade-in-delay-1">
+        <svg width="118" height="250" viewBox="0 0 118 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sf1" x1="0" y1="125" x2="118" y2="125" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#2e2e48"/><stop offset="50%" stop-color="#5a5a72"/><stop offset="100%" stop-color="#2e2e48"/>
+            </linearGradient>
+            <clipPath id="ss1"><rect x="5" y="5" width="108" height="240" rx="20"/></clipPath>
+            <linearGradient id="ssg1" x1="0" y1="0" x2="0" y2="245" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#1A1A2E"/><stop offset="100%" stop-color="#0d0d1f"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="118" height="250" rx="24" fill="url(#sf1)"/>
+          <rect x="5" y="5" width="108" height="240" rx="20" fill="url(#ssg1)"/>
+          <rect x="0" y="0" width="118" height="250" rx="24" fill="none" stroke="rgba(255,255,255,.11)" stroke-width="1"/>
+          <rect x="40" y="9" width="38" height="11" rx="5.5" fill="#000"/>
+          <rect x="-2" y="55" width="3.5" height="18" rx="1.75" fill="#3a3a52"/>
+          <rect x="-2" y="80" width="3.5" height="26" rx="1.75" fill="#3a3a52"/>
+          <rect x="-2" y="112" width="3.5" height="26" rx="1.75" fill="#3a3a52"/>
+          <rect x="116.5" y="70" width="3.5" height="44" rx="1.75" fill="#3a3a52"/>
+          <g clip-path="url(#ss1)">
+            <text x="13" y="34" fill="rgba(255,255,255,.7)" font-size="7.5" font-weight="600" font-family="Inter,sans-serif">9:41</text>
+            <rect x="95" y="28" width="16" height="8" rx="2" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+            <rect x="96" y="29.5" width="10" height="5" rx="1" fill="#22C55E"/>
+            <rect x="111.5" y="31" width="2" height="3" rx="1" fill="rgba(255,255,255,.35)"/>
+            <text x="13" y="52" fill="white" font-size="9" font-weight="800" font-family="Inter,sans-serif">LiliDelivery</text>
+            <circle cx="99" cy="47" r="9" fill="rgba(255,107,26,.18)" stroke="rgba(255,107,26,.3)" stroke-width="1"/>
+            <path d="M99 43a3 3 0 110 6 3 3 0 010-6zm0 7c-2.2 0-4 1.1-4 2.5h8c0-1.4-1.8-2.5-4-2.5z" fill="#FF6B1A"/>
+            <rect x="13" y="58" width="92" height="18" rx="6" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+            <circle cx="22" cy="67" r="3.5" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.1"/>
+            <line x1="24.5" y1="69.5" x2="26.5" y2="71.5" stroke="rgba(255,255,255,.3)" stroke-width="1.1" stroke-linecap="round"/>
+            <text x="31" y="71" fill="rgba(255,255,255,.25)" font-size="7" font-family="Inter,sans-serif">Поиск...</text>
+            <rect x="13" y="82" width="30" height="12" rx="6" fill="rgba(255,107,26,.22)" stroke="rgba(255,107,26,.3)" stroke-width="1"/>
+            <text x="17" y="91" fill="#FF8C42" font-size="7" font-weight="600" font-family="Inter,sans-serif">Пицца</text>
+            <rect x="47" y="82" width="26" height="12" rx="6" fill="rgba(255,255,255,.05)"/>
+            <text x="53" y="91" fill="rgba(255,255,255,.35)" font-size="7" font-family="Inter,sans-serif">Суши</text>
+            <rect x="77" y="82" width="28" height="12" rx="6" fill="rgba(255,255,255,.05)"/>
+            <text x="81" y="91" fill="rgba(255,255,255,.35)" font-size="7" font-family="Inter,sans-serif">Бургер</text>
+            <!-- card 1 -->
+            <rect x="13" y="100" width="92" height="34" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <rect x="19" y="106" width="26" height="22" rx="6" fill="#1e3252"/>
+            <circle cx="32" cy="117" r="8" fill="rgba(255,107,26,.18)"/>
+            <path d="M32 112l1 2.2h2.5l-1.8 1.4.7 2.4-2.4-1.4-2.4 1.4.7-2.4-1.8-1.4H31z" fill="#FF6B1A" opacity=".85"/>
+            <text x="51" y="113" fill="white" font-size="8" font-weight="700" font-family="Inter,sans-serif">Napoli Pizza</text>
+            <text x="51" y="123" fill="rgba(255,255,255,.36)" font-size="7" font-family="Inter,sans-serif">от 299 ₽ · 25 мин</text>
+            <path d="M51 130l.7 1.6 1.7.2-1.2 1.1.3 1.7-1.5-1-1.5 1 .3-1.7-1.2-1.1 1.7-.2z" fill="#FFB400"/>
+            <text x="60" y="134" fill="rgba(255,255,255,.38)" font-size="7" font-family="Inter,sans-serif">4.9</text>
+            <!-- card 2 -->
+            <rect x="13" y="140" width="92" height="34" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <rect x="19" y="146" width="26" height="22" rx="6" fill="#1a2e3a"/>
+            <circle cx="32" cy="157" r="8" fill="rgba(34,197,94,.12)"/>
+            <ellipse cx="32" cy="157" rx="5.5" ry="3.5" fill="rgba(34,197,94,.3)"/>
+            <rect x="28.5" y="155" width="7" height="4" rx="2" fill="rgba(255,255,255,.2)"/>
+            <text x="51" y="153" fill="white" font-size="8" font-weight="700" font-family="Inter,sans-serif">Tokyo Sushi</text>
+            <text x="51" y="163" fill="rgba(255,255,255,.36)" font-size="7" font-family="Inter,sans-serif">от 450 ₽ · 30 мин</text>
+            <path d="M51 170l.7 1.6 1.7.2-1.2 1.1.3 1.7-1.5-1-1.5 1 .3-1.7-1.2-1.1 1.7-.2z" fill="#FFB400"/>
+            <text x="60" y="174" fill="rgba(255,255,255,.38)" font-size="7" font-family="Inter,sans-serif">4.8</text>
+            <!-- card 3 -->
+            <rect x="13" y="180" width="92" height="34" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <rect x="19" y="186" width="26" height="22" rx="6" fill="#2e1a1a"/>
+            <circle cx="32" cy="197" r="8" fill="rgba(239,68,68,.12)"/>
+            <rect x="26" y="193" width="12" height="2.5" rx="1.25" fill="rgba(239,68,68,.7)"/>
+            <rect x="26" y="197" width="12" height="2" rx="1" fill="rgba(255,193,7,.7)"/>
+            <rect x="26" y="200" width="12" height="2.5" rx="1.25" fill="rgba(160,82,45,.7)"/>
+            <text x="51" y="193" fill="white" font-size="8" font-weight="700" font-family="Inter,sans-serif">Burger House</text>
+            <text x="51" y="203" fill="rgba(255,255,255,.36)" font-size="7" font-family="Inter,sans-serif">от 250 ₽ · 20 мин</text>
+            <!-- CTA -->
+            <rect x="13" y="220" width="92" height="16" rx="6" fill="#FF6B1A"/>
+            <text x="59" y="232" fill="white" font-size="7.5" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">Смотреть всё</text>
+            <!-- home indicator -->
+            <rect x="40" y="241" width="38" height="3" rx="1.5" fill="rgba(255,255,255,.15)"/>
+          </g>
+        </svg>
+        <div class="ss-caption">Главный экран</div>
+      </div>
+
+      <!-- Phone 2 — Tracking -->
+      <div class="ss-item fade-in fade-in-delay-2">
+        <svg width="118" height="250" viewBox="0 0 118 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sf2" x1="0" y1="125" x2="118" y2="125" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#2e2e48"/><stop offset="50%" stop-color="#5a5a72"/><stop offset="100%" stop-color="#2e2e48"/>
+            </linearGradient>
+            <clipPath id="ss2"><rect x="5" y="5" width="108" height="240" rx="20"/></clipPath>
+          </defs>
+          <rect x="0" y="0" width="118" height="250" rx="24" fill="url(#sf2)"/>
+          <rect x="5" y="5" width="108" height="240" rx="20" fill="#0c1520"/>
+          <rect x="0" y="0" width="118" height="250" rx="24" fill="none" stroke="rgba(255,255,255,.11)" stroke-width="1"/>
+          <rect x="40" y="9" width="38" height="11" rx="5.5" fill="#000"/>
+          <rect x="-2" y="55" width="3.5" height="18" rx="1.75" fill="#3a3a52"/>
+          <rect x="-2" y="80" width="3.5" height="26" rx="1.75" fill="#3a3a52"/>
+          <rect x="-2" y="112" width="3.5" height="26" rx="1.75" fill="#3a3a52"/>
+          <rect x="116.5" y="70" width="3.5" height="44" rx="1.75" fill="#3a3a52"/>
+          <g clip-path="url(#ss2)">
+            <!-- map -->
+            <rect x="5" y="5" width="108" height="150" fill="#0d1a2a"/>
+            <line x1="5" y1="55" x2="113" y2="55" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="5" y1="90" x2="113" y2="90" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="5" y1="125" x2="113" y2="125" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="40" y1="5" x2="40" y2="155" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="78" y1="5" x2="78" y2="155" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="5" y1="80" x2="113" y2="80" stroke="rgba(255,255,255,.07)" stroke-width="2.5"/>
+            <line x1="60" y1="5" x2="60" y2="155" stroke="rgba(255,255,255,.07)" stroke-width="2.5"/>
+            <path d="M35 130 Q48 95 59 75 Q70 58 82 42" stroke="#FF6B1A" stroke-width="2.5" stroke-dasharray="5,3" fill="none" stroke-linecap="round"/>
+            <!-- courier -->
+            <circle cx="67" cy="67" r="8" fill="rgba(255,107,26,.2)"/>
+            <circle cx="67" cy="67" r="5" fill="#FF6B1A"/>
+            <path d="M65.5 65.5h3M67 64v3" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+            <!-- dest -->
+            <circle cx="82" cy="42" r="6" fill="rgba(34,197,94,.2)"/>
+            <circle cx="82" cy="42" r="3.5" fill="#22C55E"/>
+            <path d="M80.5 42l1.5 1.5 3-3" stroke="white" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- status -->
+            <text x="13" y="27" fill="rgba(255,255,255,.7)" font-size="7.5" font-weight="600" font-family="Inter,sans-serif">9:41</text>
+            <!-- card -->
+            <rect x="8" y="152" width="102" height="80" rx="12" fill="#161c2a"/>
+            <text x="18" y="170" fill="white" font-size="9.5" font-weight="700" font-family="Inter,sans-serif">Курьер в пути</text>
+            <circle cx="100" cy="165" r="5" fill="#22C55E" opacity=".2"/>
+            <circle cx="100" cy="165" r="3" fill="#22C55E"/>
+            <rect x="18" y="176" width="84" height="4" rx="2" fill="rgba(255,255,255,.08)"/>
+            <rect x="18" y="176" width="54" height="4" rx="2" fill="#FF6B1A"/>
+            <text x="18" y="188" fill="rgba(255,255,255,.4)" font-size="7" font-family="Inter,sans-serif">Ресторан</text>
+            <text x="100" y="188" fill="rgba(255,255,255,.4)" font-size="7" font-family="Inter,sans-serif" text-anchor="end">Вы</text>
+            <rect x="18" y="192" width="84" height="30" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+            <text x="26" y="205" fill="rgba(255,255,255,.45)" font-size="7" font-family="Inter,sans-serif">Осталось</text>
+            <text x="26" y="215" fill="#FF6B1A" font-size="10" font-weight="800" font-family="Inter,sans-serif">8 минут</text>
+            <rect x="40" y="241" width="38" height="3" rx="1.5" fill="rgba(255,255,255,.15)"/>
+          </g>
+        </svg>
+        <div class="ss-caption">Трекинг</div>
+      </div>
+
+      <!-- Phone 3 — Menu -->
+      <div class="ss-item fade-in fade-in-delay-3">
+        <svg width="118" height="250" viewBox="0 0 118 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sf3" x1="0" y1="125" x2="118" y2="125" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#2e2e48"/><stop offset="50%" stop-color="#5a5a72"/><stop offset="100%" stop-color="#2e2e48"/>
+            </linearGradient>
+            <clipPath id="ss3"><rect x="5" y="5" width="108" height="240" rx="20"/></clipPath>
+            <linearGradient id="ssg3" x1="0" y1="0" x2="0" y2="245" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#1A1A2E"/><stop offset="100%" stop-color="#0d0d1f"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="118" height="250" rx="24" fill="url(#sf3)"/>
+          <rect x="5" y="5" width="108" height="240" rx="20" fill="url(#ssg3)"/>
+          <rect x="0" y="0" width="118" height="250" rx="24" fill="none" stroke="rgba(255,255,255,.11)" stroke-width="1"/>
+          <rect x="40" y="9" width="38" height="11" rx="5.5" fill="#000"/>
+          <rect x="-2" y="55" width="3.5" height="18" rx="1.75" fill="#3a3a52"/>
+          <rect x="-2" y="80" width="3.5" height="26" rx="1.75" fill="#3a3a52"/>
+          <rect x="-2" y="112" width="3.5" height="26" rx="1.75" fill="#3a3a52"/>
+          <rect x="116.5" y="70" width="3.5" height="44" rx="1.75" fill="#3a3a52"/>
+          <g clip-path="url(#ss3)">
+            <text x="13" y="27" fill="rgba(255,255,255,.7)" font-size="7.5" font-weight="600" font-family="Inter,sans-serif">9:41</text>
+            <path d="M15 44l-4.5 4.5 4.5 4.5" stroke="rgba(255,255,255,.5)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <text x="26" y="51" fill="white" font-size="8.5" font-weight="700" font-family="Inter,sans-serif">Napoli Pizza</text>
+            <rect x="13" y="58" width="92" height="50" rx="9" fill="#1e2d40"/>
+            <circle cx="45" cy="83" r="18" fill="rgba(255,107,26,.1)" stroke="rgba(255,107,26,.2)" stroke-width="1"/>
+            <circle cx="45" cy="83" r="12" fill="rgba(255,107,26,.15)"/>
+            <path d="M45 76l1.6 3.2h3.6l-2.6 2 .9 3.5-3.5-2-3.5 2 .9-3.5-2.6-2h3.6z" fill="#FF6B1A" opacity=".9"/>
+            <text x="75" y="72" fill="white" font-size="7.5" font-weight="700" font-family="Inter,sans-serif">Napoli Pizza</text>
+            <text x="75" y="83" fill="rgba(255,255,255,.38)" font-size="6.5" font-family="Inter,sans-serif">Итальянская кухня</text>
+            <text x="75" y="94" fill="#FF6B1A" font-size="7" font-weight="600" font-family="Inter,sans-serif">★ 4.9 · 25 мин</text>
+            <text x="13" y="122" fill="rgba(255,255,255,.38)" font-size="6.5" font-weight="700" font-family="Inter,sans-serif" letter-spacing="1.5">МЕНЮ</text>
+            <!-- items -->
+            <rect x="13" y="128" width="92" height="30" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <rect x="19" y="133" width="20" height="20" rx="5" fill="#2a1e10"/>
+            <circle cx="29" cy="143" r="7" fill="rgba(255,150,50,.2)"/>
+            <path d="M29 138.5l.9 2h1.9l-1.5 1.2.6 1.9-1.9-1.1-1.9 1.1.6-1.9-1.5-1.2h1.9z" fill="#FF8C42" opacity=".8"/>
+            <text x="44" y="141" fill="white" font-size="7.5" font-weight="600" font-family="Inter,sans-serif">Маргарита</text>
+            <text x="44" y="151" fill="rgba(255,255,255,.35)" font-size="7" font-family="Inter,sans-serif">520 ₽</text>
+            <circle cx="99" cy="143" r="7" fill="rgba(255,107,26,.15)" stroke="rgba(255,107,26,.3)" stroke-width="1"/>
+            <line x1="99" y1="139" x2="99" y2="147" stroke="#FF6B1A" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="95" y1="143" x2="103" y2="143" stroke="#FF6B1A" stroke-width="1.4" stroke-linecap="round"/>
+            <rect x="13" y="163" width="92" height="30" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.07)" stroke-width="1"/>
+            <rect x="19" y="168" width="20" height="20" rx="5" fill="#1a2010"/>
+            <circle cx="29" cy="178" r="7" fill="rgba(34,197,94,.12)"/>
+            <text x="44" y="176" fill="white" font-size="7.5" font-weight="600" font-family="Inter,sans-serif">Пеперони</text>
+            <text x="44" y="186" fill="rgba(255,255,255,.35)" font-size="7" font-family="Inter,sans-serif">680 ₽</text>
+            <circle cx="99" cy="178" r="7" fill="rgba(255,107,26,.15)" stroke="rgba(255,107,26,.3)" stroke-width="1"/>
+            <line x1="99" y1="174" x2="99" y2="182" stroke="#FF6B1A" stroke-width="1.4" stroke-linecap="round"/>
+            <line x1="95" y1="178" x2="103" y2="178" stroke="#FF6B1A" stroke-width="1.4" stroke-linecap="round"/>
+            <rect x="13" y="204" width="92" height="22" rx="7" fill="#FF6B1A"/>
+            <text x="59" y="219" fill="white" font-size="8" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">В корзину · 1200 ₽</text>
+            <rect x="40" y="241" width="38" height="3" rx="1.5" fill="rgba(255,255,255,.15)"/>
+          </g>
+        </svg>
+        <div class="ss-caption">Меню заведения</div>
+      </div>
+
+      <!-- Phone 4 — Profile -->
+      <div class="ss-item fade-in fade-in-delay-4">
+        <svg width="118" height="250" viewBox="0 0 118 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sf4" x1="0" y1="125" x2="118" y2="125" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#2e2e48"/><stop offset="50%" stop-color="#5a5a72"/><stop offset="100%" stop-color="#2e2e48"/>
+            </linearGradient>
+            <clipPath id="ss4"><rect x="5" y="5" width="108" height="240" rx="20"/></clipPath>
+            <linearGradient id="ssg4" x1="0" y1="0" x2="0" y2="245" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#1A1A2E"/><stop offset="100%" stop-color="#0d0d1f"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="118" height="250" rx="24" fill="url(#sf4)"/>
+          <rect x="5" y="5" width="108" height="240" rx="20" fill="url(#ssg4)"/>
+          <rect x="0" y="0" width="118" height="250" rx="24" fill="none" stroke="rgba(255,255,255,.11)" stroke-width="1"/>
+          <rect x="40" y="9" width="38" height="11" rx="5.5" fill="#000"/>
+          <rect x="-2" y="55" width="3.5" height="18" rx="1.75" fill="#3a3a52"/>
+          <rect x="-2" y="80" width="3.5" height="26" rx="1.75" fill="#3a3a52"/>
+          <rect x="-2" y="112" width="3.5" height="26" rx="1.75" fill="#3a3a52"/>
+          <rect x="116.5" y="70" width="3.5" height="44" rx="1.75" fill="#3a3a52"/>
+          <g clip-path="url(#ss4)">
+            <text x="13" y="27" fill="rgba(255,255,255,.7)" font-size="7.5" font-weight="600" font-family="Inter,sans-serif">9:41</text>
+            <text x="59" y="49" fill="white" font-size="9" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">Профиль</text>
+            <circle cx="59" cy="74" r="18" fill="rgba(255,107,26,.1)" stroke="rgba(255,107,26,.22)" stroke-width="1.5"/>
+            <circle cx="59" cy="67" r="7" fill="#FF6B1A" opacity=".8"/>
+            <path d="M59 76c-5 0-8 2.5-8 5.5h16c0-3-3-5.5-8-5.5z" fill="#FF6B1A" opacity=".8"/>
+            <text x="59" y="103" fill="white" font-size="8.5" font-weight="700" font-family="Inter,sans-serif" text-anchor="middle">Алексей Р.</text>
+            <text x="59" y="113" fill="rgba(255,255,255,.35)" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">alexey@mail.ru</text>
+            <!-- bonus card -->
+            <rect x="13" y="120" width="92" height="38" rx="9" fill="rgba(255,107,26,.1)" stroke="rgba(255,107,26,.18)" stroke-width="1"/>
+            <text x="22" y="135" fill="rgba(255,255,255,.45)" font-size="7" font-family="Inter,sans-serif">Ваши бонусы</text>
+            <text x="22" y="150" fill="#FF8C42" font-size="16" font-weight="900" font-family="Inter,sans-serif" letter-spacing="-.5">450</text>
+            <text x="48" y="150" fill="rgba(255,255,255,.38)" font-size="7" font-family="Inter,sans-serif">баллов</text>
+            <rect x="76" y="128" width="24" height="12" rx="6" fill="rgba(255,107,26,.2)"/>
+            <text x="80" y="137" fill="#FF8C42" font-size="7" font-weight="600" font-family="Inter,sans-serif">Gold ★</text>
+            <!-- stats -->
+            <rect x="13" y="165" width="43" height="30" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+            <text x="34.5" y="179" fill="white" font-size="11" font-weight="800" font-family="Inter,sans-serif" text-anchor="middle">24</text>
+            <text x="34.5" y="189" fill="rgba(255,255,255,.35)" font-size="6.5" font-family="Inter,sans-serif" text-anchor="middle">заказа</text>
+            <rect x="62" y="165" width="43" height="30" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+            <text x="83.5" y="179" fill="white" font-size="11" font-weight="800" font-family="Inter,sans-serif" text-anchor="middle">4.8</text>
+            <text x="83.5" y="189" fill="rgba(255,255,255,.35)" font-size="6.5" font-family="Inter,sans-serif" text-anchor="middle">рейтинг</text>
+            <!-- history -->
+            <rect x="13" y="202" width="92" height="22" rx="7" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+            <text x="19" y="216" fill="rgba(255,255,255,.45)" font-size="7" font-family="Inter,sans-serif">Napoli Pizza</text>
+            <text x="99" y="216" fill="#FF6B1A" font-size="7" font-weight="600" font-family="Inter,sans-serif" text-anchor="end">+45 бонусов</text>
+            <rect x="40" y="241" width="38" height="3" rx="1.5" fill="rgba(255,255,255,.15)"/>
+          </g>
+        </svg>
+        <div class="ss-caption">Профиль и бонусы</div>
+      </div>
+    </div>
+
+    <div class="trust-bar fade-in">
+      <div class="trust-item"><div class="trust-num">50<span>K+</span></div><div class="trust-label">Довольных пользователей</div></div>
+      <div class="trust-item"><div class="trust-num">4.<span>9</span></div><div class="trust-label">Рейтинг в App Store</div></div>
+      <div class="trust-item"><div class="trust-num">500<span>+</span></div><div class="trust-label">Заведений-партнёров</div></div>
+      <div class="trust-item"><div class="trust-num">28<span>мин</span></div><div class="trust-label">Среднее время доставки</div></div>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card fade-in fade-in-delay-1">
+        <div class="review-stars">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+        </div>
+        <p class="review-text">«Наконец-то нашла приложение, где заказываешь из нормальных мест, а не из трёх ресторанов. Доставка за 25 минут — это реально!»</p>
+        <div class="review-author">
+          <div class="review-av" style="background:#FFE5D0"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="4" fill="#FF6B1A" opacity=".7"/><path d="M2 17c0-4 3.1-7 7-7s7 3 7 7" fill="#FF6B1A" opacity=".7"/></svg></div>
+          <div><div class="review-name">Анна К.</div><div class="review-meta">App Store · 2 месяца назад</div></div>
+        </div>
+      </div>
+      <div class="review-card fade-in fade-in-delay-2">
+        <div class="review-stars">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+        </div>
+        <p class="review-text">«Пользуюсь каждый день. Удобный интерфейс, быстрый трекинг, бонусы копятся — уже накопил на бесплатный заказ. Рекомендую.»</p>
+        <div class="review-author">
+          <div class="review-av" style="background:#D0E5FF"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="4" fill="#3B82F6" opacity=".7"/><path d="M2 17c0-4 3.1-7 7-7s7 3 7 7" fill="#3B82F6" opacity=".7"/></svg></div>
+          <div><div class="review-name">Михаил Р.</div><div class="review-meta">Google Play · 1 месяц назад</div></div>
+        </div>
+      </div>
+      <div class="review-card fade-in fade-in-delay-3">
+        <div class="review-stars">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="#FFB400"><path d="M6.5 1l1.7 3.7 4 .6-2.9 2.8.7 4.1-3.5-1.9-3.5 1.9.7-4.1L1 5.3l4-.6z"/></svg>
+        </div>
+        <p class="review-text">«С двумя детьми поход в магазин — целое приключение. LiliDelivery спасает каждый день. Поддержка отвечает мгновенно.»</p>
+        <div class="review-author">
+          <div class="review-av" style="background:#D0FFD6"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="4" fill="#22C55E" opacity=".7"/><path d="M2 17c0-4 3.1-7 7-7s7 3 7 7" fill="#22C55E" opacity=".7"/></svg></div>
+          <div><div class="review-name">Светлана М.</div><div class="review-meta">App Store · 3 недели назад</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BLOCK 5: CTA ═══ -->
+<section class="section cta-section" id="download">
+  <div class="cta-glow"></div>
+  <div class="section-inner cta-inner">
+    <div class="eyebrow fade-in">Начни сегодня</div>
+    <h2 class="sec-title fade-in">Первый заказ —<br>уже сегодня вечером</h2>
+    <p class="sec-sub fade-in">Скачивай бесплатно и получи скидку 15% на первый заказ. Без скрытых платежей.</p>
+    <div class="cta-buttons fade-in">
+      <button class="store-btn orange open-modal">
+        <span class="store-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M15.5 11.5C15.49 9.3 17.34 8.24 17.42 8.19C16.36 6.63 14.7 6.42 14.12 6.4C12.72 6.26 11.37 7.23 10.66 7.23C9.93 7.23 8.83 6.41 7.65 6.44C6.12 6.47 4.7 7.34 3.92 8.7C2.31 11.47 3.51 15.55 5.06 17.79C5.84 18.89 6.75 20.12 7.96 20.08C9.14 20.03 9.58 19.31 11 19.31C12.4 19.31 12.81 20.08 14.04 20.05C15.31 20.03 16.1 18.94 16.86 17.83C17.77 16.57 18.14 15.33 18.16 15.27C18.13 15.26 15.51 14.24 15.5 11.5Z" fill="white"/><path d="M13.17 4.79C13.8 4.02 14.23 2.97 14.11 1.91C13.21 1.95 12.09 2.52 11.44 3.27C10.86 3.94 10.35 5.02 10.49 6.04C11.5 6.12 12.52 5.57 13.17 4.79Z" fill="white"/></svg></span>
+        <span class="store-btn-text-wrap"><span class="store-btn-label">Download on the</span><span class="store-btn-name">App Store</span></span>
+      </button>
+      <button class="store-btn store-btn-ghost open-modal">
+        <span class="store-btn-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3.18 1.5C2.8 1.72 2.55 2.14 2.55 2.65V19.35C2.55 19.86 2.8 20.28 3.18 20.5L3.26 20.58L12.86 11L3.26 1.42L3.18 1.5Z" fill="#4FC3F7"/><path d="M16.04 14.17L12.86 11L16.04 7.83L19.68 9.9C20.72 10.5 20.72 11.5 19.68 12.1L16.04 14.17Z" fill="#FFCA28"/><path d="M16.04 14.17L12.86 11L3.18 20.5C3.54 20.87 4.12 20.92 4.78 20.55L16.04 14.17Z" fill="#F44336"/><path d="M16.04 7.83L4.78 1.45C4.12 1.08 3.54 1.13 3.18 1.5L12.86 11L16.04 7.83Z" fill="#4CAF50"/></svg></span>
+        <span class="store-btn-text-wrap"><span class="store-btn-label">Get it on</span><span class="store-btn-name">Google Play</span></span>
+      </button>
+    </div>
+    <div class="cta-note fade-in">Бесплатно · <strong>Без подписки</strong> · iOS и Android</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Lili<span>Delivery</span></div>
+  <p>© 2025 LiliDelivery. Учебный портфолио-проект LILIDUDE.<br>
+  <a href="#">Конфиденциальность</a> · <a href="#">Условия</a> · <a href="#">Поддержка</a></p>
+</footer>
+
+<script>
+// Fade-in on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold: 0.1});
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+document.querySelectorAll('.hero .fade-in').forEach(el => setTimeout(()=>el.classList.add('visible'),100));
+
+// Nav shadow
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.style.boxShadow = window.scrollY > 20 ? '0 4px 30px rgba(26,26,46,.1)' : 'none';
+}, {passive:true});
+
+// Modal
+const modal = document.getElementById('modal');
+const modalClose = document.getElementById('modal-close');
+function openModal(){ modal.classList.add('active'); document.body.style.overflow='hidden'; }
+function closeModal(){ modal.classList.remove('active'); document.body.style.overflow=''; }
+document.querySelectorAll('.open-modal').forEach(btn => btn.addEventListener('click', openModal));
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
